@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const MedHistSchema = mongoose.Schema({
-    user_id: ObjectId,
+    user_id: mongoose.Schema.Types.ObjectId,
     specialisation: [String]
 });
 

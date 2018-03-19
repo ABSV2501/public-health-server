@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 
 const AppointmentSchema = mongoose.Schema({
-    user_id: ObjectId,
-    doctor_id: ObjectId,
-    time: timestamp,
+    user_id: mongoose.Schema.Types.ObjectId,
+    doctor_id: mongoose.Schema.Types.ObjectId,
+    time: {
+        type: Date,
+        default: Date.now()
+    },
     name_of_patient: String
 });
 

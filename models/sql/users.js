@@ -3,8 +3,8 @@ module.exports = (database, DataTypes) => {
         user_id: DataTypes.STRING,
         username: DataTypes.STRING,
         password: DataTypes.STRING,
-        isVerifies: {
-            type: Boolean,
+        isVerified: {
+            type: DataTypes.BOOLEAN,
             default: true
         }
     })

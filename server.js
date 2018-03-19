@@ -112,6 +112,18 @@ app.get("/users",(req,res)=>{
     res.send("okay");
 });
 
+app.get('/auth/google', Passport.authenticate('google', { scope: [
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/plus.profile.emails.read']
+}));
+
+app.get( '/auth/google/callback',
+    Passport.authenticate( 'google', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    }));
+
+
 //Login POST Route
 app.post("/login", Passport.authenticate('local', {
     successRedirect: "/users",

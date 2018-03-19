@@ -5,7 +5,10 @@ const DoctorSchema = mongoose.Schema({
     email: String,
     phone: String,
     clinics: [{
-        timings: timestamp,
+        timings: {
+            type: Date,
+            default: Date.now()
+        },
         hospital: String
     }],
     qualification: [String],

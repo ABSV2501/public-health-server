@@ -1,6 +1,6 @@
 //Import the mongoose module
 const mongoose = require("mongoose");
-const CONFIG = require("../../configs");
+const CONFIG = require("../../config");
 
 //Import DB Models
 const users = require("./user");
@@ -12,9 +12,7 @@ const disPrec = require("./disease_precaution");
 const disSymp = require("./disease_symptom");
 
 
-mongoose.connect(`mongodb://${CONFIG.MONGO.HOST}:${CONFIG.MONGO.PORT}/${CONFIG.MONGO.DB_NAME}` , {
-    useMongoClient: true
-}).then(()=>{
+mongoose.connect(`mongodb://${CONFIG.MONGO.HOST}:${CONFIG.MONGO.PORT}/${CONFIG.MONGO.DB_NAME}`).then(()=>{
     console.log("Successful connection to MongoDB");
 })
     .catch((err)=>{
