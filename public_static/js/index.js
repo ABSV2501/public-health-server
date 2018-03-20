@@ -15,5 +15,9 @@ $(()=>{
     });
     $('#yourAppointment').click(()=>{
         window.location='/yourAppointments.html';
-    })
+    });
+    $('#allDoctors').click(()=>{
+        window.location='/allDoctors.html';
+    });
+
 })
