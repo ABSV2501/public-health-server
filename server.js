@@ -12,6 +12,8 @@ const Users = require('./models/sql/sequelize').Users;
 const flash = require("connect-flash");
 
 
+const HELPERS = require("./helpers");
+
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -40,12 +42,8 @@ app.use(Passport.initialize());
 //Ensure persistent sessions
 app.use(Passport.session());
 
-app.use("/user", require("./routes/user"));
-
-app.use((req, res, next) => {
-    res.locals.user = req.user;
-    next();
-});
+//Master API Route
+app.use("/api",require("./routes/api"));
 
 // SignUp route
 app.post("/signup", function (req, res) {
@@ -149,9 +147,18 @@ app.post("/feedback",(req,res) => {
     //TODO: feedback
 });
 
-app.get("/appointments", (req,res) => {
-    models
-})
+app.post("/login2",(req,res) => {
+    res.send("kkkk");
+    console.log("TOKEN:",req.body.token);
+    HELPERS.verify(req.body.token)
+        .catch(console.error);
+
+});
+
+//Home page
+app.get("/",(req,res)=>{
+    res.send("Home page render");
+});
 
 //Listen on port
 app.listen(CONFIG.SERVER.PORT, function () {
