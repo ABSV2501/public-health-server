@@ -9,7 +9,6 @@ $(()=>{
                 <small>with doctor ${appointment.doctorname}</small>
             </div>
             <p class="mb-1">AT ${appointment.time}</p>
-            <small>Donec id elit non mi porta.</small>
         </a>`)
               appointments.prepend(app);
           }
