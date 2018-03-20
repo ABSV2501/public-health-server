@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take Appointments</title>
+    <link href="/bootstrapcss/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="/bootstrapjs/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/index.js" type="text/javascript"></script>
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/bootstrapcss/fontawesome-all.css" rel="stylesheet">
+    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <script src="/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <script src="/js/takeAppointments.js" type="text/javascript"></script>
+    <script src="/js/feedback.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#" class="items" id="takeAppointment">Take Appointment</a>
+    <a href="#" class="items" id="yourAppointment">your Appointments</a>
+    <a href="#" class="items" id="allDoctors" >All Doctors</a>
+    <a href="#" class="items">Contact</a>
+</div>
+
+<div id="main">
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    <br>
+    <h1 class="text-center">FEEDBACK FORM</h1>
+    <div class="container">
+    <div class="form-group" style="width: 20em">
+        <p class="h6">Rating [0 - 10] :</p>
+        <input type="range" class="form-control" id="Rating" min="0" max="10" width="auto">
+    </div>
+        <br>
+    <div class="form-group">
+        <p class="h6">Comments Suggesstions :</p>
+        <textarea cols="100" id="feedback" ></textarea>
+        </div>
+
+
+    <button type="submit" class="btn btn-primary" id="book">Book Appointment</button>
+    <br><br>
+
+    </div>
+</div>
+</body>
+</html>
