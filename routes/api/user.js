@@ -6,7 +6,7 @@ route.get("/", (req, res) => {
 });
 
 //Get user's appointments
-route.post("/appointment", (req,res) =>{
+route.get("/appointment", (req,res) =>{
     console.log("User Appointments Requested",req.body.userid);
     models.appointment.find({
         user_id: req.user.id
