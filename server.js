@@ -1,24 +1,26 @@
 const express = require('express');
-const app = express();
 const bcrypt = require('bcryptjs');
 const session = require("express-session");
 const mongoose = require("mongoose");
 const MongoStore = require('connect-mongo')(session);
 const Passport = require('./passport');
-const CONFIG = require("./config");
-const Sequelize = require('sequelize');
 const bodyParser = require('body-parser');
-const Users = require('./models/sql/sequelize').Users;
 const flash = require("connect-flash");
 const path=require('path');
 
+//Databases Import
+const models = require("./models/mongo/mongo");
+const Users = require('./models/sql/sequelize').Users;
 
+//Miscellaneous stuff
 const HELPERS = require("./helpers");
+const CONFIG = require("./config");
 
-
+const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
 const connection = mongoose.createConnection(`mongodb://${CONFIG.MONGO.HOST}:${CONFIG.MONGO.PORT}/${CONFIG.MONGO.DB_NAME}`, {});
 const store = new MongoStore({mongooseConnection: connection});
 
@@ -43,53 +45,80 @@ app.use(Passport.initialize());
 //Ensure persistent sessions
 app.use(Passport.session());
 
+//Static serve
 app.use(express.static(path.join(__dirname, "/public_static")));
+
 //Master API Route
-app.use("/api",require("./routes/api"));
+app.use("/api", require("./routes/api/api"));
 
 // SignUp route
 app.post("/signup", function (req, res) {
-
     if (req.user) {
-        res.send("loggedIn");
+        //Already logged in
+        res.redirect("/user/diseasesAround")
     } else {
+        //Check if already exists
         Users.find({
             where: {
                 username: req.body.username
             }
         })
             .then((user) => {
-                {
-                    if (!user) {
-                        bcrypt.genSalt(10, function (err, salt) {
-                            bcrypt.hash(req.body.password, salt, function (err, hash) {
-                                // Store hash in your password DB.
-                                Users.create({
-                                    username: req.body.username,
-                                    password: hash
+                    {
+                        //User does not exist. Add to DB
+                        if (!user) {
+                            bcrypt.genSalt(10, function (err, salt) {
+                                bcrypt.hash(req.body.password, salt, function (err, hash) {
+                                    // Store hash in your password DB.
+                                    Users.create({
+                                        username: req.body.username,
+                                        password: hash
+                                    })
+                                        .then((user) => {
+                                            //login user after signup
+                                            req.login(user, (err) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                }
+                                                else {
+                                                    //sign up confirmation to client
+
+                                                    res.send("okay");
+                                                }
+                                            });
+
+                                            //Add entries to mongo
+                                            return models.user.create({
+                                                name: req.body.name,
+                                                email: req.body.email,
+                                                phone: req.body.phone,
+                                                address: {
+                                                    street: req.body.street,
+                                                    city: req.body.city,
+                                                    state: req.body.state
+                                                },
+                                                age: req.body.age,
+                                                gender: req.body.gender
+
+                                            })
+                                        })
+                                        .then((user) => {
+                                            console.log("Mongo user entry done");
+                                            res.redirect("/user/dashboard");
+                                        })
                                 })
-                                    .then((user) => {
-                                    //login user after signup
-                                        req.login(user, (err) => {
-                                            if (err) {
-                                                console.log(err);
-                                            }
-                                            else {
-                                                //sign up confirmation to clientx
-                                                res.send("okay");
-                                            }
-                                        });
-                                    }).catch((err) => {
-                                    console.log(err);
-                                })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    })
                             })
-                        })
-                    }
-                    else {
-                        res.send("taken");
+                        }
+                        else {
+                            //User Exists
+                            res.send("username taken");
+                        }
                     }
                 }
-            })
+            )
             .catch((err) => {
                 console.log(err);
             })
@@ -97,24 +126,26 @@ app.post("/signup", function (req, res) {
 
 });
 
-//Logout route
-app.get("/logout", (req, res) => {
-    req.logout();
-    res.send("back");
-});
-
-app.post("/feedback",(req,res) => {
-    //TODO: feedback
-});
-
 //Login Route
 app.post("/login", Passport.authenticate('local', {
-    successRedirect: "/users",
+    successRedirect: "/user",
     failureRedirect: "/login",
     failureFlash: true
 }));
 
+<<<<<<< HEAD
+//Logout route
+app.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("/login");
+});
 
+app.post("/feedback", (req, res) => {
+    //TODO: feedback
+});
+=======
+
+>>>>>>> 866fe0c7fb2271ebca968e266c40e274883b8d84
 
 //Listen on port
 app.listen(CONFIG.SERVER.PORT, function () {
