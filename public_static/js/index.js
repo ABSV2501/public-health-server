@@ -12,5 +12,8 @@ function closeNav() {
 $(()=>{
     $('#takeAppointment').click(()=>{
         window.location='/takeAppointments.html';
+    });
+    $('#yourAppointment').click(()=>{
+        window.location='/yourAppointments.html';
     })
 })
