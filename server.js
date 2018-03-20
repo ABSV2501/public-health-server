@@ -126,6 +126,8 @@ app.post("/signup", function (req, res) {
 
 });
 
+// app.get("/login")
+
 //Login Route
 app.post("/login", Passport.authenticate('local', {
     successRedirect: "/user",
@@ -133,7 +135,6 @@ app.post("/login", Passport.authenticate('local', {
     failureFlash: true
 }));
 
-<<<<<<< HEAD
 //Logout route
 app.get("/logout", (req, res) => {
     req.logout();
@@ -143,9 +144,6 @@ app.get("/logout", (req, res) => {
 app.post("/feedback", (req, res) => {
     //TODO: feedback
 });
-=======
-
->>>>>>> 866fe0c7fb2271ebca968e266c40e274883b8d84
 
 //Listen on port
 app.listen(CONFIG.SERVER.PORT, function () {
