@@ -10,6 +10,7 @@ const Sequelize = require('sequelize');
 const bodyParser = require('body-parser');
 const Users = require('./models/sql/sequelize').Users;
 const flash = require("connect-flash");
+const path=require('path');
 
 
 const HELPERS = require("./helpers");
@@ -42,6 +43,7 @@ app.use(Passport.initialize());
 //Ensure persistent sessions
 app.use(Passport.session());
 
+app.use(express.static(path.join(__dirname, "/public_static")));
 //Master API Route
 app.use("/api",require("./routes/api"));
 
@@ -112,10 +114,7 @@ app.post("/login", Passport.authenticate('local', {
     failureFlash: true
 }));
 
-//Home page
-app.get("/",(req,res)=>{
-    res.send("Home page render");
-});
+
 
 //Listen on port
 app.listen(CONFIG.SERVER.PORT, function () {
