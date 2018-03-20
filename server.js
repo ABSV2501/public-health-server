@@ -6,7 +6,7 @@ const MongoStore = require('connect-mongo')(session);
 const Passport = require('./passport');
 const bodyParser = require('body-parser');
 const flash = require("connect-flash");
-const path=require('path');
+const path = require('path');
 
 //Databases Import
 const models = require("./models/mongo/mongo");
@@ -45,8 +45,20 @@ app.use(Passport.initialize());
 //Ensure persistent sessions
 app.use(Passport.session());
 
+app.get("/", (req, res) => {
+    console.log("aayi req");
+    if (req.user) {
+        res.redirect("/index.html");
+    }
+    else {
+        res.redirect("/login");
+    }
+});
+
+
 //Static serve
 app.use(express.static(path.join(__dirname, "/public_static")));
+
 
 //Master API Route
 app.use("/api", require("./routes/api/api"));
@@ -82,13 +94,13 @@ app.post("/signup", function (req, res) {
                                                 }
                                                 else {
                                                     //sign up confirmation to client
-
-                                                    res.send("okay");
+                                                    // res.redirect("/");
+                                                    console.log("after redir");
                                                 }
                                             });
-
+                                            console.log("adding to mongo");
                                             //Add entries to mongo
-                                            return models.user.create({
+                                            models.users.create({
                                                 name: req.body.name,
                                                 email: req.body.email,
                                                 phone: req.body.phone,
@@ -101,15 +113,20 @@ app.post("/signup", function (req, res) {
                                                 gender: req.body.gender
 
                                             })
+                                                .then((user) => {
+                                                    console.log("Mongo user entry done");
+                                                    res.redirect("/");
+                                                })
+                                                .catch((err) => {
+                                                    console.log(err);
+                                                })
                                         })
-                                        .then((user) => {
-                                            console.log("Mongo user entry done");
-                                            res.redirect("/user/dashboard");
+                                        .catch((err) => {
+                                            console.log(err);
                                         })
+
                                 })
-                                    .catch((err) => {
-                                        console.log(err);
-                                    })
+
                             })
                         }
                         else {
@@ -126,11 +143,13 @@ app.post("/signup", function (req, res) {
 
 });
 
-// app.get("/login")
+app.get("/login", (req, res) => {
+    res.redirect("/login.html");
+});
 
 //Login Route
 app.post("/login", Passport.authenticate('local', {
-    successRedirect: "/user",
+    successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 }));

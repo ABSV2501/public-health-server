@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const AppointmentSchema = mongoose.Schema({
-    user_id: mongoose.Schema.Types.ObjectId,
+    user_id: Number,
     doctor_id: mongoose.Schema.Types.ObjectId,
-    time: Date,
+    time: String,
     name_of_patient: String,
     doctorname: String
 });

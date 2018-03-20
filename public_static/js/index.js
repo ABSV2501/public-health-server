@@ -19,7 +19,7 @@ $(()=>{
     $('#allDoctors').click(()=>{
         window.location='/allDoctors.html';
     });
-    $('#feedBack').click(()=>{
+    $('#feedback').click(()=>{
         window.location='/feedback.html';
     })
 });

@@ -21,18 +21,20 @@ route.get("/appointment", (req,res) =>{
 
 //Create new appointment
 route.post("/appointment/new",(req,res) => {
+    console.log("New Appointment");
     models.appointment.create({
         user_id: req.user.id,
         doctor_id: req.body.doctorid,
         name_of_patient: req.body.name,
-        doctorname: req.body.doctorname
-
+        doctorname: req.body.doctorname,
+        time: req.body.time
     })
         .then((appoi) => {
-            res.redirect(`/appointment/${appoi.id}`);
+        console.log("Appointment Done");
+            res.send({message: "valid"});
         })
     .catch((err) => {
-        res.send({message: "invalid"})
+        res.send({message: "invalid"});
         console.log(err);
     })
 });

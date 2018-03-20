@@ -13,6 +13,9 @@ $(()=>{
             {
                 $('#invalid').css('display','block');
             }
+            else if(data.message === "valid"){
+                window.location = "/yourAppointments.html"
+            }
         })
     })
 })
