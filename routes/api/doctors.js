@@ -1,5 +1,5 @@
 const route = require("express").Router();
-const models = require("../models/mongo/mongo");
+const models = require("../../models/mongo/mongo");
 
 //Get doctor details
 route.get("/:id", (req,res) => {
