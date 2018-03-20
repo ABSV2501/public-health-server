@@ -18,7 +18,7 @@ module.exports = {
     verify: async function(token) {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: "575091130691-sio1vj6t19n6ofrao6bjggt694odf18v.apps.googleusercontent.com",  // Specify the CLIENT_ID of the app that accesses the backend
+            //audience: "575091130691-sio1vj6t19n6ofrao6bjggt694odf18v.apps.googleusercontent.com",  // Specify the CLIENT_ID of the app that accesses the backend
             // Or, if multiple clients access the backend:
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         });
