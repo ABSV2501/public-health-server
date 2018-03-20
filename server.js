@@ -6,6 +6,7 @@ const MongoStore = require('connect-mongo')(session);
 const Passport = require('./passport');
 const bodyParser = require('body-parser');
 const flash = require("connect-flash");
+const path=require('path');
 
 //Databases Import
 const models = require("./models/mongo/mongo");
@@ -44,10 +45,8 @@ app.use(Passport.initialize());
 //Ensure persistent sessions
 app.use(Passport.session());
 
-//Home page
-app.get("/", (req, res) => {
-    res.send("Home page render");
-});
+//Static serve
+app.use(express.static(path.join(__dirname, "/public_static")));
 
 //Master API Route
 app.use("/api", require("./routes/api/api"));
@@ -134,6 +133,7 @@ app.post("/login", Passport.authenticate('local', {
     failureFlash: true
 }));
 
+<<<<<<< HEAD
 //Logout route
 app.get("/logout", (req, res) => {
     req.logout();
@@ -143,6 +143,9 @@ app.get("/logout", (req, res) => {
 app.post("/feedback", (req, res) => {
     //TODO: feedback
 });
+=======
+
+>>>>>>> 866fe0c7fb2271ebca968e266c40e274883b8d84
 
 //Listen on port
 app.listen(CONFIG.SERVER.PORT, function () {
