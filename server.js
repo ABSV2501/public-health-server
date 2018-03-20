@@ -95,65 +95,22 @@ app.post("/signup", function (req, res) {
 
 });
 
-//failure redirect of login
-//TODO
-app.get("/loginfail", (req, res) => {
-    if (req.user)
-        res.send('okay');
-    else
-        //console.log("loginmsg:"+req.flash("loginMsg"));
-        res.send( req.flash("loginMsg"));
-});
-
-// Success login redirects here, send this success info to client
-app.get("/users",(req,res)=>{
-    res.send("okay");
-});
-
-app.get('/auth/google', Passport.authenticate('google', { scope: [
-    'https://www.googleapis.com/auth/plus.login',
-    'https://www.googleapis.com/auth/plus.profile.emails.read']
-}));
-
-app.get( '/auth/google/callback',
-    Passport.authenticate( 'google', {
-        successRedirect: '/',
-        failureRedirect: '/login'
-    }));
-
-
-//Login POST Route
-app.post("/login", Passport.authenticate('local', {
-    successRedirect: "/users",
-    failureRedirect: "/loginfail",
-    failureFlash: true
-}));
-
 //Logout route
 app.get("/logout", (req, res) => {
     req.logout();
     res.send("back");
 });
 
-//check login
-app.get("/checklogin",(req,res) => {
-    if(req.user)
-        res.send(true);
-    else
-        res.send(false);
-});
-
 app.post("/feedback",(req,res) => {
     //TODO: feedback
 });
 
-app.post("/login2",(req,res) => {
-    res.send("kkkk");
-    console.log("TOKEN:",req.body.token);
-    HELPERS.verify(req.body.token)
-        .catch(console.error);
-
-});
+//Login Route
+app.post("/login", Passport.authenticate('local', {
+    successRedirect: "/users",
+    failureRedirect: "/login",
+    failureFlash: true
+}));
 
 //Home page
 app.get("/",(req,res)=>{

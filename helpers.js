@@ -1,6 +1,8 @@
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client("");
 
+const models = require("./models/mongo/mongo");
+
 module.exports = {
 
 //CheckLoggedIN
@@ -12,8 +14,16 @@ module.exports = {
             res.redirect("/login");
         }
     },
-    getDocID: function () {
-
+    getDocID: function (docname) {
+        models.doctor.findOne({
+            name: docname
+        })
+            .then((doc)=> {
+                return doc;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
     verify: async function(token) {
         const ticket = await client.verifyIdToken({

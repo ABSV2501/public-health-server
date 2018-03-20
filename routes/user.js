@@ -6,9 +6,10 @@ route.get("/", (req, res) => {
 });
 
 //Get user's appointments
-route.get("/appointment", (req,res) =>{
+route.post("/appointment", (req,res) =>{
+    console.log("User Appointments Requested",req.body.userid);
     models.appointment.find({
-        user_id: req.user.id //TODO: userid
+        user_id: req.body.userid //TODO: userid
     })
         .then((appointments) => {
             res.send(appointments);
