@@ -2,6 +2,7 @@ const route = require("express").Router();
 const path = require("path");
 const PythonShell = require("python-shell");
 const multer = require("multer");
+const fs = require("fs");
 
 let Storage = multer.diskStorage({
     destination: './public_static/csv',
@@ -28,6 +29,12 @@ route.post('/infrastructure',upload.single('csv'),(req,res)=>{
         if (err) console.log( err);
         // results is an array consisting of messages collected during execution
         console.log('results: ', results);
+        let file = path.join(__dirname,'../../public_static/csv/infra_res.csv');
+        //
+        // res.setHeader('Content-Length', file.length);
+        // res.write(file, 'binary');
+        // res.end();
+        res.download(file);
     });
 
 });
@@ -43,6 +50,12 @@ route.post('/rating',upload.single('csv'),(req,res)=>{
         if (err) console.log( err);
         // results is an array consisting of messages collected during execution
         console.log('results: ', results);
+        let file = path.join(__dirname,'../../public_static/csv/rating_res.csv');
+        //
+        // res.setHeader('Content-Length', file.length);
+        // res.write(file, 'binary');
+        // res.end();
+        res.download(file);
     });
 });
 
